@@ -7,6 +7,7 @@ from pyclustering.cluster import cluster_visualizer;
 import matplotlib.pyplot as plt
 from Normalization import normalize
 from scipy.spatial import distance
+from sklearn.manifold import TSNE
 
 filename = "Dataset(Clustering).csv"
 col_names = list(range(1,102))
@@ -14,16 +15,21 @@ df = pd.read_csv(filename, sep=';', index_col=False, header=1)
 
 print(df)
 
-#df_array = normalize(df)
+tsne = TSNE(n_components=2, random_state=0)
+
+df_2d = tsne.fit_transform(df)
+y = np.asarray(df_2d)
+
+y = y.tolist()
+print(y)
 
 df_array = np.asarray(df)
-#y = df_array.transpose()
-#print(y)
+
 print(df_array)
 x = df_array.tolist()
 
 
-cluster_instance = cure(x, 5, 4, 0.2)
+cluster_instance = cure(x, 7, 4, 0.2)
 cluster_instance.process()
 clusters = cluster_instance.get_clusters()
 representators = cluster_instance.get_representors()
